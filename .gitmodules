@@ -1,9 +1,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://gitlab.merritt.es/music-library-player/backend.git
-[submodule "https://gitlab.merritt.es/music-library-player/client"]
-	path = https://gitlab.merritt.es/music-library-player/client
-	url = client
 [submodule "client"]
 	path = client
 	url = https://gitlab.merritt.es/music-library-player/client.git
