@@ -29,6 +29,49 @@ Self-hosted music player.
 
 
 
+## How to setup :bulb:
+
+### Build docker image from source
+
+1. Clone this repo with all submodules
+
+```bash
+$ git clone --recurse-submodules https://github.com/hmerritt/music-library-player
+```
+
+2. Modify `docker-compose.yml` file
+
+```bash
+version: "3"
+
+services:
+  
+  ## music-player
+  music-player:
+    build: .
+
+    environment:
+        - REACT_APP_HTTP=http
+        - REACT_APP_HOST=localhost:7788
+        - REACT_APP_API=http://localhost:7789
+
+    ports:
+      - 7788:80
+      - 7789:8000
+
+    volumes:
+      - path-to-your-music:/app/music
+```
+
+3. Run `docker-compose up`
+
+```bash
+$ docker-compose up
+```
+
+
+
+
 <br />
 
 ## How to clone repo
