@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  
+  ## music-player
+  music-player:
+    build: .
+
+    environment:
+        - REACT_APP_HTTP=http
+        - REACT_APP_HOST=localhost:7788
+        - REACT_APP_API=http://localhost:7789
+
+    ports:
+      - 7788:80
+      - 7789:8000
+
+    volumes:
+      - path-to-your-music:/app/music
+  
+  ## watchtower (optional: fetches latest version automatically)
+  #watchtower:
+  #  image: containrrr/watchtower
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #    - /root/.docker/config.json:/config.json
+  #  command: --interval 100
+
