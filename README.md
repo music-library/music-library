@@ -33,22 +33,14 @@ Self-hosted music player.
 
 ### Pull from Docker Hub _(the easy way :)_
 
-1. Pull docker image
-
-```bash
-$ docker pull hmerritt/music-library-player
-```
-
-2. Modify `docker-compose.yml` file
+1. Create a `docker-compose.yml` file
 
 ```bash
 version: "3"
 
 services:
-  
-  ## music-player
   music-player:
-    build: .
+    image: hmerritt/music-library-player:latest
 
     environment:
         - REACT_APP_HTTP=http
@@ -63,60 +55,8 @@ services:
       - path-to-your-music:/app/music
 ```
 
-3. Run docker image using `docker-compose`
+2. Run docker image using `docker-compose`
 
 ```bash
 $ docker-compose up
-```
-
-
-<br />
-
-### Build docker image from source
-
-1. Clone this repo with all submodules
-
-```bash
-$ git clone --recurse-submodules https://github.com/hmerritt/music-library-player
-```
-
-2. Modify `docker-compose.yml` file
-
-```bash
-version: "3"
-
-services:
-  
-  ## music-player
-  music-player:
-    build: .
-
-    environment:
-        - REACT_APP_HTTP=http
-        - REACT_APP_HOST=localhost:7788
-        - REACT_APP_API=http://localhost:7789
-
-    ports:
-      - 7788:80
-      - 7789:8000
-
-    volumes:
-      - path-to-your-music:/app/music
-```
-
-3. Run `docker-compose up`
-
-```bash
-$ docker-compose up
-```
-
-
-
-
-<br />
-
-## How to clone repo
-Clone repo (with all submodules)
-```bash
-$ git clone --recurse-submodules https://github.com/hmerritt/music-library-player
 ```
