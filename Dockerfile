@@ -1,8 +1,6 @@
 FROM nginx:1.16.0-alpine
 
-RUN apk update
-RUN apk add nodejs npm
-RUN npm i -g pm2
+RUN apk update && apk add nodejs npm python2 && npm i -g pm2
 
 COPY /backend /app/server
 COPY /client /app/client
