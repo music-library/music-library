@@ -1,6 +1,10 @@
 #!/bin/ash
 
 
+## Install required programs
+apk update && apk add nodejs npm python2 build-base && npm i -g pm2
+
+
 ## Setup server
 echo -e "\n\n* Setup app server"
 cd /app/server
