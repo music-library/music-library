@@ -12,5 +12,6 @@ ENV PORT 8000
 EXPOSE 80
 EXPOSE 8000
 
+COPY default.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 CMD ["sh", "docker-entrypoint.sh"]
