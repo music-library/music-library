@@ -17,6 +17,7 @@ services:
 
     volumes:
       - path-to-your-music:/app/music
+      - path-to-caching-dir:/app/data
   
   ## watchtower (optional: fetches latest version automatically)
   #watchtower:

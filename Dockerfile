@@ -5,8 +5,10 @@ COPY /client /app/client
 WORKDIR /app
 
 VOLUME ["/app/music"]
+VOLUME ["/app/data"]
 
 ENV MUSIC_DIR "../music"
+ENV DATA_DIR "../data"
 ENV PORT 8000
 
 EXPOSE 80
