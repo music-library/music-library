@@ -1,20 +1,8 @@
-#!/bin/ash
+#!/bin/bash
 
 
-## Install required programs
-apk update && apk add nodejs npm python2 build-base && npm i -g pm2
-
-
-## Setup server
-echo -e "\n\n* Setup app server"
-cd /app/server
-npm install --only=prod
-
-
-##  Build client app
 echo -e "\n\n* Build app client"
 cd /app/client
-npm install --only=prod
 npm run build
 
 ## Move built app to www
@@ -30,6 +18,9 @@ cd /app/server
 pm2 start bin/index.js
 
 
+service varnish restart
+
+
 ##  Start serving app
 echo -e "\n\n* Start serving app"
-nginx -g 'daemon off;'
+nginx -g "daemon off;"
