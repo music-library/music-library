@@ -13,6 +13,8 @@ Self-hosted music player.
 
 ## Features :muscle:
 - NBUI (not bad user-interface)
+- Live _active users_ showing what other users are currently listening to
+- Fully mobile and tablet responsive
 - Sources tracks from file-system
 - Supported File Formats
 	- MP3
@@ -23,9 +25,6 @@ Self-hosted music player.
 	- Album Artist
 	- Album
 	- Cover Art
-- Key bindings
-	- `K` or `P`: pause
-
 
 
 
@@ -53,6 +52,7 @@ services:
 
     volumes:
       - path-to-your-music:/app/music
+      - /srv/music-library/data:/app/data
 ```
 
 2. Run docker image using `docker-compose`
