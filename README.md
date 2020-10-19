@@ -45,6 +45,9 @@ services:
         - REACT_APP_HTTP=http
         - REACT_APP_HOST=localhost:7788
         - REACT_APP_API=http://localhost:7789
+        - REACT_APP_BUGCATCH_ENABLE=false
+        - BUGCATCH_MONGO_URI=""
+        - DEBUG=indexer,bugcatch,socket.io,cache
 
     ports:
       - 7788:80
