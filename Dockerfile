@@ -1,7 +1,7 @@
 FROM nginx:latest
 
 RUN apt-get update && apt-get install curl varnish -y
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && export NVM_DIR="$HOME/.nvm"
 RUN nvm install 14.18.2 && nvm use 14
 RUN npm install pm2 -g
 
