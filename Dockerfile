@@ -1,7 +1,7 @@
 FROM nginx:latest
 
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get update && apt-get install varnish nodejs npm -y
+RUN apt-get update && apt-get install varnish nodejs -y
 
 RUN npm install pm2 -g
 
