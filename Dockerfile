@@ -1,8 +1,21 @@
 FROM nginx:latest
 
+# Replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 RUN apt-get update && apt-get install curl varnish -y
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && export NVM_DIR="$HOME/.nvm"
-RUN nvm install 14.18.2 && nvm use 14
+
+# NVM (Node + NPM)
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 14.18.2
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+
 RUN npm install pm2 -g
 
 COPY /backend /app/server
