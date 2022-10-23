@@ -3,7 +3,7 @@
 
 echo -e "\n\n* Build app client"
 cd /app/client
-npm run build
+yarn build
 
 ## Move built app to www
 cd /app

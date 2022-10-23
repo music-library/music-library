@@ -3,14 +3,14 @@ FROM nginx:latest
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get update && apt-get install varnish git nodejs -y
 
-RUN npm install pm2 -g
+RUN npm install -g yarn && npm install -g pm2
 
 COPY /backend /app/server
 COPY /client /app/client
 WORKDIR /app
 
 RUN cd /app/server && npm install --only=prod
-RUN cd /app/client && npm install --only=prod
+RUN cd /app/client && yarn install
 
 VOLUME ["/app/music"]
 VOLUME ["/app/data"]
