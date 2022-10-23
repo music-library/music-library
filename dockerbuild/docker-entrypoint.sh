@@ -7,7 +7,7 @@ npm run build
 
 ## Move built app to www
 cd /app
-mv -v /app/client/build/* /usr/share/nginx/html
+mv -v /app/client/dist/* /usr/share/nginx/html
 rm -rf /app/client
 ln -s /usr/share/nginx/html /app/client
 
