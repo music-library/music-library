@@ -18,9 +18,6 @@ cd /app/server
 pm2 start bin/index.js
 
 
-service varnish restart
-
-
 ##  Start serving app
 echo -e "\n\n* Start serving app"
 nginx -g "daemon off;"

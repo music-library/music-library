@@ -24,8 +24,6 @@ EXPOSE 80
 EXPOSE 8000
 
 COPY ./dockerbuild/nginx-default.conf /etc/nginx/conf.d/default.conf
-COPY ./dockerbuild/varnish-default.vcl /etc/varnish/default.vcl
-COPY ./dockerbuild/varnish /etc/default/varnish
-
 COPY ./dockerbuild/docker-entrypoint.sh /app/docker-entrypoint.sh
+
 CMD ["sh", "docker-entrypoint.sh"]
