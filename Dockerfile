@@ -1,23 +1,29 @@
-FROM nginx:latest
-
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get update && apt-get install varnish git nodejs -y
-
-RUN npm install -g yarn && npm install -g pm2
-
+# build environment
+FROM node:18-alpine as build
+ENV PATH /app/node_modules/.bin:$PATH
 COPY /backend /app/server
 COPY /client /app/client
 WORKDIR /app
-
 RUN cd /app/server && npm install --only=prod
 RUN cd /app/client && yarn install
+
+# publish environment
+FROM nginx:latest
+
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get update && apt-get install git nodejs -y
+
+RUN npm install -g yarn && npm install -g pm2
+
+COPY --from=build /app/server /app/server
+COPY --from=build /app/client /app/client
+WORKDIR /app
 
 VOLUME ["/app/music"]
 VOLUME ["/app/data"]
 
 ENV MUSIC_DIR "../music"
 ENV DATA_DIR "../data"
-ENV VARNISH_SIZE 1000M
 ENV PORT 8000
 
 EXPOSE 80
