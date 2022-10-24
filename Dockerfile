@@ -1,5 +1,5 @@
 # build environment
-FROM node:18-alpine as build
+FROM node:14 as build
 ENV PATH /app/node_modules/.bin:$PATH
 COPY /backend /app/server
 COPY /client /app/client
@@ -10,7 +10,7 @@ RUN cd /app/client && yarn install
 # publish environment
 FROM nginx:latest
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get update && apt-get install git nodejs -y
 
 RUN npm install -g yarn && npm install -g pm2
