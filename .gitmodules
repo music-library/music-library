@@ -1,8 +1,8 @@
-[submodule "backend"]
-	path = backend
-	url = https://gitlab.com/music-library/backend.git
-	branch = master
 [submodule "client"]
 	path = client
 	url = https://gitlab.com/music-library/client.git
+	branch = master
+[submodule "api"]
+	path = api
+	url = https://gitlab.com/music-library/api.git
 	branch = master

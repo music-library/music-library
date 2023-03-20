@@ -15,7 +15,7 @@ ln -s /usr/share/nginx/html /app/client
 ##  Start server
 echo -e "\n\n* Starting server"
 cd /app/server
-pm2 start bin/index.js
+pm2 start ./music-api --name music-api
 
 
 ##  Start serving app
