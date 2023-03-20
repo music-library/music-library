@@ -1,27 +1,30 @@
 version: "3"
 
 services:
-  
-  ## music-player
   music-player:
     image: hmerritt/music-library-player:latest
     #build: .
 
     environment:
+        # Client
         - REACT_APP_HTTP=http
         - REACT_APP_HOST=localhost:7788
         - REACT_APP_API=http://localhost:7789
-        - REACT_APP_BUGCATCH_ENABLE=false
-        - BUGCATCH_MONGO_URI=
-        - DEBUG=
+        # Server
+        # Specify up to 5 music directories
+        - MUSIC_DIR_NAME=Main
+        - MUSIC_DIR2_NAME=Second
+        - MUSIC_DIR2_NAME=Third
 
     ports:
       - 7788:80
       - 7789:8000
 
     volumes:
-      - path-to-your-music:/app/music
       - path-to-caching-dir:/app/data
+      - path-to-your-music:/app/music
+      - path-to-your-music:/app/music2
+      - path-to-your-music:/app/music3
   
   ## watchtower (optional: fetches latest version automatically)
   #watchtower:
