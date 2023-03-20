@@ -1,12 +1,12 @@
 # build environment
-FROM golang:1.18.3-alpine as buildApi
+FROM golang:1.18.3 as buildApi
 COPY /api /app/server
 WORKDIR /app/server
-RUN apk add --update gcc libc-dev git
+RUN apt-get update && apt-get install build-essential -y
 RUN go install -mod vendor github.com/go-task/task/v3/cmd/task
 RUN go generate -tags tools tools/tools.go
 RUN task bootstrap
-RUN task build
+RUN task builddocker
 
 FROM node:14 as buildClient
 ENV PATH /app/node_modules/.bin:$PATH
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install git nodejs -y
 
 RUN npm install -g yarn && npm install -g pm2
 
-COPY --from=buildApi /app/server /app/server
+COPY --from=buildApi /app/server/bin /app/server
 COPY --from=buildClient /app/client /app/client
 WORKDIR /app
 

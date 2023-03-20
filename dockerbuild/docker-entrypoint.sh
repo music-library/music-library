@@ -15,6 +15,7 @@ ln -s /usr/share/nginx/html /app/client
 ##  Start server
 echo -e "\n\n* Starting server"
 cd /app/server
+chmod +x ./music-api
 pm2 start ./music-api --name music-api
 
 
