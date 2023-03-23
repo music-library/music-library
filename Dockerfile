@@ -18,7 +18,7 @@ RUN cd /app/client && yarn install
 FROM nginx:latest
 
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get update && apt-get install git nodejs mediainfo vipsthumbnail -y
+RUN apt-get update && apt-get install git nodejs mediainfo libvips-tools -y
 
 RUN npm install -g yarn && npm install -g pm2
 
