@@ -1,25 +1,23 @@
 # build environment
-FROM golang:1.18.3 as buildApi
+FROM golang:1.18.3-alpine as buildApi
 COPY /api /app/server
 WORKDIR /app/server
-RUN apt-get update && apt-get install build-essential -y
+RUN apk update && apk add build-base
 RUN go install -mod vendor github.com/go-task/task/v3/cmd/task
 RUN go generate -tags tools tools/tools.go
 RUN task bootstrap
 RUN task builddocker
 
-FROM node:14 as buildClient
+FROM node:16.19.1-alpine3.16 as buildClient
 ENV PATH /app/node_modules/.bin:$PATH
 COPY /client /app/client
 WORKDIR /app
 RUN cd /app/client && yarn install
 
 # publish environment
-FROM nginx:latest
+FROM nginx:stable-alpine
 
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get update && apt-get install git nodejs mediainfo libvips-tools -y
-
+RUN apk update && apk add git nodejs=16.19.1-r0 npm mediainfo vips
 RUN npm install -g yarn && npm install -g pm2
 
 COPY --from=buildApi /app/server/bin /app/server
