@@ -12,12 +12,13 @@ FROM node:16.19.1-alpine3.16 as buildClient
 ENV PATH /app/node_modules/.bin:$PATH
 COPY /client /app/client
 WORKDIR /app
+RUN apk update && apk add git
 RUN cd /app/client && yarn install
 
 # publish environment
 FROM nginx:stable-alpine
 
-RUN apk update && apk add git nodejs=16.19.1-r0 npm mediainfo vips
+RUN apk update && apk add git nodejs=16.19.1-r0 npm mediainfo vips vips-tools
 RUN npm install -g yarn && npm install -g pm2
 
 COPY --from=buildApi /app/server/bin /app/server
