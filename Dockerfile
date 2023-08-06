@@ -2,7 +2,7 @@
 FROM golang:1.18.3-alpine as buildApi
 COPY /api /app/server
 WORKDIR /app/server
-RUN apk update && apk add build-base
+RUN apk update && apk add build-base git
 RUN go install -mod vendor github.com/go-task/task/v3/cmd/task
 RUN go generate -tags tools tools/tools.go
 RUN task bootstrap
