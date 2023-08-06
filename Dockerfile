@@ -18,10 +18,7 @@ RUN cd /app/client && yarn install
 # publish environment
 FROM nginx:stable-alpine
 
-RUN apk update && apk add git bash mediainfo vips vips-tools wget
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh && touch ~/.bashrc
-RUN git clone http://github.com/creationix/nvm.git /root/.nvm && chmod -R 777 /root/.nvm/ && bash /root/.nvm/install.sh
-RUN bash -i -c 'nvm install --lts && nvm install v16.19.1 && nvm alias default v16.19.1 && nvm use default'
+RUN apk update && apk add git bash mediainfo vips vips-tools wget nodejs-current npm
 RUN npm install -g yarn && npm install -g pm2
 
 COPY --from=buildApi /app/server/bin /app/server
