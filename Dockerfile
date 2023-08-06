@@ -18,7 +18,7 @@ RUN cd /app/client && yarn install
 # publish environment
 FROM nginx:stable-alpine
 
-RUN apk update && apk add git bash mediainfo vips vips-tools
+RUN apk update && apk add git bash mediainfo vips vips-tools wget
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN touch ~/.bashrc && wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash && export NVM_DIR="$HOME/.nvm" && source $NVM_DIR/nvm.sh && nvm install 16.19.1 && nvm use 16.19.1
 RUN npm install -g yarn && npm install -g pm2
