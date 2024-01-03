@@ -13,7 +13,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY /client /app/client
 WORKDIR /app
 RUN apk update && apk add git
-RUN cd /app/client && yarn install
+RUN cd /app/client && yarn install && yarn cache clean
 
 # publish environment
 FROM nginx:stable-alpine
