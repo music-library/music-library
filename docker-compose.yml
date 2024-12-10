@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   music-player:
     image: hmerritt/music-library-player:latest
@@ -26,10 +24,3 @@ services:
       - path-to-your-music:/app/music2
       - path-to-your-music:/app/music3
   
-  ## watchtower (optional: fetches latest version automatically)
-  #watchtower:
-  #  image: containrrr/watchtower
-  #  volumes:
-  #    - /var/run/docker.sock:/var/run/docker.sock
-  #    - /root/.docker/config.json:/config.json
-  #  command: --interval 100
