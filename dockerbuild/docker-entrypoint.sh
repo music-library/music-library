@@ -5,7 +5,7 @@
 ## See https://github.com/hmerritt/reactenv
 echo -e "\n\n* Inject environment variables"
 
-reactenv /usr/share/nginx/html/assets
+reactenv run /usr/share/nginx/html/assets
 
 if [ "${?}" != "0" ]; then
     exit 1
