@@ -1,15 +1,15 @@
 #!/bin/bash
 
 
-echo -e "\n\n* Build app client"
-cd /app/client
-yarn build
+## Inject environment variables with `reactenv`
+## See https://github.com/hmerritt/reactenv
+echo -e "\n\n* Inject environment variables"
 
-## Move built app to www
-cd /app
-mv -v /app/client/dist/* /usr/share/nginx/html
-rm -rf /app/client
-ln -s /usr/share/nginx/html /app/client
+reactenv /usr/share/nginx/html/assets
+
+if [ "${?}" != "0" ]; then
+    exit 1
+fi
 
 
 ##  Start server
