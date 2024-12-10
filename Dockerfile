@@ -23,15 +23,8 @@ RUN yarn build
 # Publish environment
 FROM nginx:stable-alpine
 
-RUN apk update && apk add git bash libc6-compat mediainfo vips vips-tools wget nodejs-current npm
-RUN npm install -g pm2
-
-# Install reactenv
-RUN wget https://github.com/hmerritt/reactenv/releases/download/0.1.47/reactenv_0.1.47_linux_amd64.zip \
-    && unzip reactenv_0.1.47_linux_amd64.zip \
-    && chmod +x reactenv \
-    && mv reactenv /usr/local/bin/ \
-    && rm reactenv_0.1.47_linux_amd64.zip
+RUN apk update && apk add git bash libc6-compat mediainfo vips vips-tools nodejs-current npm
+RUN npm install -g pm2 @reactenv/cli
 
 COPY --from=buildApi /app/server/bin /app/server
 COPY --from=buildClient /app/client/dist /usr/share/nginx/html
