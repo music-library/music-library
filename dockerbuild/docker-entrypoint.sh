@@ -14,9 +14,8 @@ fi
 
 ##  Start server
 echo -e "\n\n* Starting server"
-rc-status
-rc-service musicapi start
-rc-service musicapi status
+chmod +x /app/server/music-api
+supervisord -c "/etc/supervisor/conf.d/supervisord.conf"
 
 
 ##  Start serving app
