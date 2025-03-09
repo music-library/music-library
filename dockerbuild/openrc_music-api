@@ -1,0 +1,6 @@
+#!/sbin/openrc-run
+
+name="music-api"
+command_background="yes"
+command="/app/server/music-api"
+pidfile="/var/run/music-api.pid"

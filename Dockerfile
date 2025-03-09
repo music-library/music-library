@@ -23,16 +23,20 @@ RUN yarn build
 # Publish environment
 FROM nginx:stable-alpine
 
-RUN apk add --no-cache bash curl dpkg libc6-compat mediainfo supervisor vips vips-tools
+RUN apk add --no-cache bash curl dpkg libc6-compat mediainfo openrc vips vips-tools
 RUN curl -s https://releases.mrrtt.me/reactenv/get.sh | bash -s /usr/local/bin
 
 COPY --from=build_api /app/server/bin /app/server
 COPY --from=build_client /app/client/dist /usr/share/nginx/html
 
 COPY ./dockerbuild/nginx-default.conf /etc/nginx/conf.d/default.conf
-COPY ./dockerbuild/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./dockerbuild/openrc_music-api /etc/init.d/musicapi
 COPY ./dockerbuild/docker-entrypoint.sh /app/docker-entrypoint.sh
 
+RUN chmod +x /app/server/music-api  \
+    && chmod +x /etc/init.d/musicapi  \
+    && mkdir /run/openrc            \
+    && touch /run/openrc/softlevel
 WORKDIR /app
 
 VOLUME ["/app/data"]
@@ -41,6 +45,7 @@ VOLUME ["/app/music2"]
 VOLUME ["/app/music3"]
 VOLUME ["/app/music4"]
 VOLUME ["/app/music5"]
+VOLUME ["/sys/fs/cgroup"]
 
 ENV DATA_DIR "../data"
 ENV MUSIC_DIR "../music"
