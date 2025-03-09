@@ -23,7 +23,7 @@ RUN yarn build
 # Publish environment
 FROM nginx:stable-alpine
 
-RUN apk update && apk add git bash libc6-compat mediainfo vips vips-tools nodejs-current npm
+RUN apk update && apk add --no-cache git bash libc6-compat mediainfo vips vips-tools nodejs-current npm
 RUN npm install -g pm2 @reactenv/cli
 
 COPY --from=buildApi /app/server/bin /app/server
