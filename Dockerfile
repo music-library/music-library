@@ -23,7 +23,7 @@ RUN yarn build
 # Publish environment
 FROM nginx:stable-alpine
 
-RUN apk add --no-cache bash curl dpkg git libc6-compat mediainfo supervisor vips vips-tools
+RUN apk add --no-cache bash curl dpkg libc6-compat mediainfo supervisor vips vips-tools
 RUN curl -s https://releases.mrrtt.me/reactenv/get.sh | bash -s /usr/local/bin
 
 COPY --from=build_api /app/server/bin /app/server
