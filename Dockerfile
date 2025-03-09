@@ -23,7 +23,7 @@ RUN yarn build
 # Publish environment
 FROM nginx:stable-alpine
 
-RUN apk update && apk add --no-cache bash curl git libc6-compat mediainfo openrc vips vips-tools
+RUN apk update && apk add --no-cache bash curl dpkg git libc6-compat mediainfo openrc vips vips-tools
 RUN curl -s https://releases.mrrtt.me/reactenv/get.sh | bash -s /usr/local/bin
 
 COPY --from=buildApi /app/server/bin /app/server
@@ -33,7 +33,11 @@ COPY ./dockerbuild/nginx-default.conf /etc/nginx/conf.d/default.conf
 COPY ./dockerbuild/openrc_music-api /etc/init.d/musicapi
 COPY ./dockerbuild/docker-entrypoint.sh /app/docker-entrypoint.sh
 
-RUN chmod +x /app/server/music-api && chmod +x /etc/init.d/musicapi && rc-update add musicapi default
+RUN chmod +x /app/server/music-api  \
+    && chmod +x /etc/init.d/musicapi  \
+    && rc-update add musicapi default \
+    && mkdir /run/openrc            \
+    && touch /run/openrc/softlevel
 WORKDIR /app
 
 VOLUME ["/app/data"]

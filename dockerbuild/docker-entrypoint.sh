@@ -14,7 +14,9 @@ fi
 
 ##  Start server
 echo -e "\n\n* Starting server"
+rc-status
 rc-service musicapi start
+rc-service musicapi status
 
 
 ##  Start serving app
