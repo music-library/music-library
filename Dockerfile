@@ -1,5 +1,5 @@
 # Build environment
-FROM golang:1.18.3-alpine as buildApi
+FROM golang:1.18.3-alpine AS build_api
 COPY /api /app/server
 WORKDIR /app/server
 RUN apk update && apk add build-base git
@@ -8,7 +8,7 @@ RUN go generate -tags tools tools/tools.go
 RUN task bootstrap
 RUN task builddocker
 
-FROM node:18-alpine as buildClient
+FROM node:18-alpine AS build_client
 ENV PATH /app/node_modules/.bin:$PATH
 COPY /client /app/client
 WORKDIR /app/client
@@ -23,11 +23,15 @@ RUN yarn build
 # Publish environment
 FROM nginx:stable-alpine
 
-RUN apk update && apk add git bash libc6-compat mediainfo vips vips-tools nodejs-current npm
-RUN npm install -g pm2 @reactenv/cli
+RUN apk add --no-cache bash curl dpkg libc6-compat mediainfo openrc vips vips-tools
+RUN curl -s https://releases.mrrtt.me/reactenv/get.sh | bash -s /usr/local/bin
 
-COPY --from=buildApi /app/server/bin /app/server
-COPY --from=buildClient /app/client/dist /usr/share/nginx/html
+COPY --from=build_api /app/server/bin /app/server
+COPY --from=build_client /app/client/dist /usr/share/nginx/html
+
+COPY ./dockerbuild/nginx-default.conf /etc/nginx/conf.d/default.conf
+COPY ./dockerbuild/docker-entrypoint.sh /app/docker-entrypoint.sh
+
 WORKDIR /app
 
 VOLUME ["/app/data"]
@@ -36,6 +40,7 @@ VOLUME ["/app/music2"]
 VOLUME ["/app/music3"]
 VOLUME ["/app/music4"]
 VOLUME ["/app/music5"]
+VOLUME ["/sys/fs/cgroup"]
 
 ENV DATA_DIR "../data"
 ENV MUSIC_DIR "../music"
@@ -49,8 +54,5 @@ ENV HOST 0.0.0.0
 
 EXPOSE 80
 EXPOSE 8000
-
-COPY ./dockerbuild/nginx-default.conf /etc/nginx/conf.d/default.conf
-COPY ./dockerbuild/docker-entrypoint.sh /app/docker-entrypoint.sh
 
 CMD ["sh", "docker-entrypoint.sh"]
