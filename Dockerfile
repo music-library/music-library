@@ -18,6 +18,8 @@ RUN corepack enable
 ENV REACT_APP_HTTP __reactenv.REACT_APP_HTTP
 ENV REACT_APP_HOST __reactenv.REACT_APP_HOST
 ENV REACT_APP_API __reactenv.REACT_APP_API
+ENV REACT_APP_WS __reactenv.REACT_APP_WS
+ENV REACT_APP_BUGCATCH_ENABLE __reactenv.REACT_APP_BUGCATCH_ENABLE
 RUN yarn install --immutable
 RUN yarn build
 
