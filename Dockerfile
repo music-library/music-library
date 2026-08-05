@@ -1,23 +1,24 @@
 # Build environment
-FROM golang:1.18.3-alpine AS build_api
+FROM golang:1.26.5-alpine3.24 AS build_api
 COPY /api /app/server
 WORKDIR /app/server
-RUN apk update && apk add build-base git
+RUN apk update && apk add --no-cache gcc build-base libc-dev git
 RUN go install -mod vendor github.com/go-task/task/v3/cmd/task
 RUN go generate -tags tools tools/tools.go
 RUN task bootstrap
 RUN task builddocker
 
-FROM node:18-alpine AS build_client
+FROM node:24-alpine AS build_client
 ENV PATH /app/node_modules/.bin:$PATH
 COPY /client /app/client
 WORKDIR /app/client
 RUN apk update && apk add git
+RUN corepack enable
 # Set every React env value here
 ENV REACT_APP_HTTP __reactenv.REACT_APP_HTTP
 ENV REACT_APP_HOST __reactenv.REACT_APP_HOST
 ENV REACT_APP_API __reactenv.REACT_APP_API
-RUN yarn install
+RUN yarn install --immutable
 RUN yarn build
 
 # Publish environment
